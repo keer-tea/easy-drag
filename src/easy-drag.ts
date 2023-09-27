@@ -27,6 +27,7 @@ export const enableDrag = (element: HTMLElement, options?: IOptions) => {
   let { outerElement, innerElement, onDragStart, onDrag, onDragEnd } =
     options ?? {};
   // 元素的transform属性值，getComputedStyle返回值为matrix3d形式
+  // 初始值可能为"none"
   let startTransform = window.getComputedStyle(element).transform;
   // 拖拽开始时的鼠标位置
   let startPosition: TVector | null = null;
@@ -51,9 +52,11 @@ export const enableDrag = (element: HTMLElement, options?: IOptions) => {
     startPosition = getPosition(e);
 
     if (outerElement && element && innerElement) {
-      // 记录拖拽位移向量范围
+      // 每次点击记录拖拽位移向量范围
       const outerElementRect = outerElement.getBoundingClientRect();
       const elementRect = element.getBoundingClientRect();
+      // 有点 A(1, 4)，点 B(2, 8)
+      // A 到 B 的向量表示：（2 - 1, 8 - 4)
       draggingMoveVectorRange = [
         outerElementRect.top - elementRect.top,
         outerElementRect.bottom - elementRect.bottom,
@@ -70,7 +73,9 @@ export const enableDrag = (element: HTMLElement, options?: IOptions) => {
 
       // 本次的拖拽位移向量
       const currentMoveVector = formatVector(
+        // 实际的位移向量
         minusVector(startPosition, endPosition),
+        // 位移向量的范围
         draggingMoveVectorRange
       );
       // 之前的拖拽位移向量+本次的拖拽位移向量

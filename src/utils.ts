@@ -58,6 +58,8 @@ export const setTranslatePosition = (
     ""
   )}`;
 };
+// x轴方向为从左到右
+// y轴方向为从上到下
 export const getPosition = (e: MouseEvent | TouchEvent): TVector => {
   if (e instanceof MouseEvent) {
     return [e.pageX, e.pageY];
