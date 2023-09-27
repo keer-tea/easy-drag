@@ -34,7 +34,10 @@ export const minusVector = (vector1: TVector, vector2: TVector): TVector => {
  * @param range 向量取值范围
  * @returns 规范化后的向量
  */
+
 export const formatVector = (vector: TVector, range: number[]): TVector => {
+  // 需要理解下面的代码。想象一个矩形，矩形里面的一个小矩形的每边分别有一个指向大矩形的每边的箭头
+  // 这就是向量范围
   let x = vector[0];
   let y = vector[1];
   x = Math.max(x, range[2]);
